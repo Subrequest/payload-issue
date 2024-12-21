@@ -65,6 +65,21 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   const { hero, layout } = page
 
+  const payload = await getPayload({ config: configPromise })
+  const test = await payload.find({
+    collection: 'test',
+    limit: 1,
+    pagination: false,
+    depth: 500,
+    where: {
+      "content.blocks.meta.relationToPage": {
+        equals: "67546c73b4175d00fae3466b"
+      }
+    },
+  })
+
+  console.log(test.docs)
+
   return (
     <article className="pt-16 pb-24">
       <PageClient />

@@ -62,7 +62,54 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [
+    Pages,
+    Posts,
+    Media,
+    Categories,
+    Users,
+    {
+      slug: 'test',
+      fields: [
+        {
+          type: 'tabs',
+          tabs: [
+            {
+              name: 'content',
+              fields: [
+                {
+                  type: 'blocks',
+                  name: 'blocks',
+                  blocks: [
+                    {
+                      slug: 'testBlock',
+                      fields: [
+                        {
+                          type: 'tabs',
+                          tabs: [
+                            {
+                              name: 'meta',
+                              fields: [
+                                {
+                                  type: 'relationship',
+                                  relationTo: 'pages',
+                                  name: 'relationToPage',
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [
